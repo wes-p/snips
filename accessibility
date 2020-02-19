@@ -1,0 +1,24 @@
+======
+/* Hide visually, but remain approachable for screenreader */
+/* im code zB so ausgegeben: <span class='visually-hidden'>Current page: </span> */
+###
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	white-space: nowrap;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
+	border: 0;
+}
+======
+
+======
+/* ARIA = Accessible Rich Internet Applications: for screenreaders eg */
+###
+aria-current='true'
+###
+/* setzte in diesem fall ein <li> in der nav als tru, damit screenreader ausgeben können, dass diese die momentan aufgerufene Seite angibt */
+======
