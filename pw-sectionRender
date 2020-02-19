@@ -1,0 +1,11 @@
+um die children der seite auf einer seite als one-pager auszugeben:
+in PW als field „Page Reference“ anlegen, dann können auf der seite (zB home.php) in diesem Field die einzelnen $pages ausgewählt werden und sortiert
+
+die templates, die das aussehen, bzw die anordnung der sections bestimmen sind in einem weiteren unterordner in /templates/ abgespeichert.
+im home.php sieht das ganze für den gesamten body so aus:
+
+<?php    
+    foreach($home->pageReferenceItem as $section) {
+        echo $section->render(‚unterordner/ . $section->template->name . '.php');
+    };
+?>
