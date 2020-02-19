@@ -1,0 +1,21 @@
+
+
+elementtobeanimated{
+	-webkit-animation-name: bannerRed;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-delay: 1s;
+	-webkit-animation-fill-mode: forwards;
+	animation-name: bannerRed;
+	animation-duration: 1s;
+	animation-delay: 1s;
+	animation-fill-mode: backwards;
+}
+
+@-webkit-keyframes bannerRed {
+	from {height: 600px; margin-top: 0;}
+	to {height: 250px; margin-top: 350px;}
+}
+@keyframes bannerRed {
+	from {height: 600px; margin-top: 0;}
+	to {height: 250px; margin-top: 350px;}
+}
