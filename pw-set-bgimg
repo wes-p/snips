@@ -1,0 +1,6 @@
+setzt das Bild das vom User im interface hochgeladen wurde als hintergund des Abschnitts:
+
+<section id="<?php echo $page->name; ?>" class="s-home page-hero target-section" data-parallax="scroll" data-image-src="<?php echo $page->image->url; ?>" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+
+data-natural-width=300 and data-natural-height=200 stretchen oder stauchen das hochgeladene Bild so, dass es in diese Dimensionen passt
+nur data-width oder data-height setzen fest, dass das der Bereich ist, den das hochgeladene Bild ausfüllen soll, behalten aber das Format des Bildes bei
