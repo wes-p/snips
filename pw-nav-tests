@@ -1,0 +1,107 @@
+<ul class="header-nav__list">
+</ul> <!-- navigation als unordered list ausgeben-->
+
+
+================================
+<!--original script nav für onepager, verlinkt zu den sections auf der gleichen Seite--->
+==================
+<?php foreach($page->sections as $section): ?>
+    <li><a class="smoothscroll"  href="#<?php echo $section->name; ?>" title="<?php echo $section->title; ?>"><?php echo $section->title; ?></a></li>
+<?php endforeach; ?>
+================================
+
+
+$homepage = $pages->get('/');
+$children = $homepage->children();
+
+$children->prepend($homepage);
+
+!!!================================!!current-highlight und check-test!!
+<!-- zu verbessertem check-test weitere funktion hinzugefügt: es wird erfragt, ob das child, das gerade ausgegeben wird die gleiche seite ist wie die auf der wir uns befinden und wenn dem so ist wird dieses <li> item durch die klasse .current gehighlightet-->
+===================
+<li><a href="site/">Home</a></li>
+    <?php $homepage = $pages->get('/');
+	foreach($homepage->children as $child) : {
+	    if($child->id == $page->rootParent->id) { 
+		echo "<li class='current'><a href='$child->url'>$child->title</a></li>";
+	    } elseif ($child->check == 1) {
+		echo "<li><a href='$child->url'>$child->title</a></li>";
+	    }
+} ?><?php endforeach ?>
+!!!================================
+
+!================================check-test
+<!--in jeder Seite ein neues Field mit dem namen "check" hinzugefügt, eine Checkbox; im code wird abgefragt, ob die Checkbox gecheckt ist und wenn ja (1) wird die url für eine neue seite ausgegeben und wenn sie nicht gecheckt ist ist das nav element auf die landingpage verlinkt-->
+===================
+<?php $homepage = $pages->get('/');
+    foreach($homepage->children as $child) {
+        if($child->check == 1) { 
+	    echo "<li><a href='$child->url'>$child->title</a></li>";
+	} else {
+	    echo "<li><a class='smoothscroll' href='#$child->name'>$child->title</a></li>";
+	}
+    } ?><?php endforeach ?>
+===================
+<!--funktioniert, allerdings funktionieren dann die links zu den sections nicht, wenn man auf der subpage ist und nicht auf home-->
+!================================
+
+!!===============================!check-test verbessert!
+<!-- nav für die subpage, es ist zwar möglich, die sections der landingpage zu verlinken und auch die korrekte url zu laden, allerdings wird bloß die landingpage normal geladen und nicht zur entsprechenden section runtergescrollt, deswegen ist der codeschnipsel, der die sections ausgibt auskommentiert, was dazu führt, dass ausschließlich die subpages in der nav ausgegeben werden; um auch einen link zur landingpage in der nav zu haben also das <li> item, dass vor dem php abschnitt kommt-->
+===================
+<li><a href="site/">Home</a></li>
+
+<?php $homepage = $pages->get('/');
+    foreach($homepage->children as $child) : {
+	if($child->check == 1) { 
+	    echo "<li><a href='$child->url'>$child->title</a></li>";
+	} else {
+	    //echo "<li><a href='site/#$child->name'>$child->title</a></li>";
+	}
+} ?><?php endforeach ?>
+!!===============================
+
+
+xx================================tag-test
+<!--Versuch über die tags der templates die Navigation zu organisieren------>
+===================
+<?php $homepage = $pages->get('/');
+    foreach($homepage->children->templates->tags->page as $subpage): {
+	echo "<li><a href='$subpage->url'>$subpage->title</a></li>";
+} ?><?php endforeach ?>
+<?php $homepage = $pages->get('/');
+    foreach($homepage->children->templates->tags->section as $sections): {
+	echo "<li><a class="smoothscroll" href='#$child->name'>$child->title</a></li>";
+} ?><?php endforeach ?>
+===================
+<!------ funktioniert nicht, gibt gar nichts aus, wahrscheinlich kann man sich so nicht die template tags holen o.ä.-->
+xx================================
+
+xx================================if-else-test
+<!-- Versuch durch if-else die navigation sowohl für die sections auf der landingpage, als auch separate pages zu schalten ----->
+===================
+x<?php $homepage = $pages->get('/');
+    foreach($homepage->children as $child) {
+        if($child == $homepage->sections) { <!--if child is section do this, else do different-->
+            echo "<li><a class="smoothscroll" href='#$child->name'>$child->title</a></li>";
+	} else {
+	    echo "<li><a href='$child->url'>$child->title</a></li>";
+	}
+    } ?><?php endforeach ?>
+===================
+<!---- hat nicht funktioniert, hat zwar die nav gerendert wie es sein sollte, aber die sections nicht richtig ausgegeben, und zwar als verlinkung zu einer seperaten page, anstatt auf die gleiche-->
+xx================================
+
+================================if-else-test 2
+<!-- gleicher Versuch wie eins vorher, nur mit anderen Konditionen in der if-Schleife---->
+===================
+<?php $homepage = $pages->get('/');
+    foreach($homepage->children as $child): {
+	if($child != $homepage->sections) { <!--if child is NOT section do this, else do different-->
+	    echo "<li><a href='$child->url'>$child->title</a></li>";
+		} else {
+	    echo "<li><a class='smoothscroll' href='#$child->name'>$child->title</a></li>";
+		}
+} ?><?php endforeach ?>
+===================
+<!----- hat auf gleiche weise nicht funktioniert, bzw gibt das gleiche aus-->
+================================
