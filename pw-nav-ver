@@ -1,0 +1,61 @@
+<ul> //nav am besten als liste anlegen, die einzelnen Elemente werden dann wie folgt als <li> list items definiert
+
+scripte beziehen sich auf felder und pages die in Processwire befüllt/angelegt sind
+
+
+===========================
+nav script für onepager, Abschnitte sind als Pages einzeln angelegt und durch ein Feld "Page Reference" auf der homepage mit dem Attribut Sections versehen, nav verlinkt zu sections auf der gleichen seite
+================
+<?php foreach($page->sections as $section): ?>
+    <li><a class="smoothscroll"  href="#<?php echo $section->name; ?>" title="<?php echo $section->title; ?>"><?php echo $section->title; ?></a></li>
+<?php endforeach; ?>
+===========================
+
+===========================
+nav script um sich ähnlich wie bei onepager-nav die einzelnen sections der landingpage auszugeben, sowie zusätzlich die verlinkung zu separaten unterseiten; im Backend wurde auf jeder Page ein Checkfeld hinzugefügt, das abfragt, ob die angelegte page eine separate Seite sein soll
+Zusätzlich wird in der ersten if-schleife gefragt, ob die seite die momentan aufgerufene ist und wenn dem so ist wird das li gehighlightet
+in etwa:
+if(child is currently viewed){
+	echo title with link but highlighted;
+} else {
+	echo title with link to subpage;
+} else { do nothing; }
+Anm: separat angelegt für homepage und subpages; bei subpage wird wie oben beschrieben vorgegangen, nur werden sie sections der homepage nicht ausgegeben (script 1), auf der homepage wird beides ausgegeben und auch korrekt verlinkt, allerdings ist diese nav ohne highlight (script 2)
+1================1
+<li><a href="site/">Home</a></li>
+    <?php $homepage = $pages->get('/');
+	foreach($homepage->children as $child) : {
+	    if($child->id == $page->rootParent->id) { 
+		echo "<li class='current'><a href='$child->url'>$child->title</a></li>";
+	    } elseif ($child->check == 1) {
+		echo "<li><a href='$child->url'>$child->title</a></li>";
+	    }
+} ?><?php endforeach ?>
+2========2
+<?php $homepage = $pages->get('/');
+    foreach($homepage->children as $child) {
+        if($child->check == 1) { 
+	    echo "<li><a href='$child->url'>$child->title</a></li>";
+	} else {
+	    echo "<li><a class='smoothscroll' href='#$child->name'>$child->title</a></li>";
+	}
+    } ?><?php endforeach ?>
+===========================
+
+===========================
+nav ausschließlich zu unterseiten, auf jeder seite wird die gleiche Liste ausgegeben (am besten in separater head.php angelegt und bei jeder seite vor angeführt), if-schleife fragt ab, ob das <li> die momentan aufgerufene Seite ist und wenn ja wird ein highlight gesetzt
+=================
+<?php
+$homepage = $pages->get('/'); 
+$children = $homepage->children(); 
+	//^definiert, dass $homepage und $children unterschiedlich sind
+$children->prepend($homepage); 
+	//^homepage prepends die children, ist das erste item der Liste
+    foreach($children as $child) {
+	if($child->id == $page->rootParent->id) {
+	    echo "<li class='current'><a href='$child->url'>$child->title</a></li>";
+	} else {
+	    echo "<li><a href='$child->url'>$child->title</a></li>";
+	}
+} ?>
+===========================
