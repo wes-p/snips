@@ -1,0 +1,18 @@
+quasi variablen intern in css definieren, damit man nicht in jeder klasse einzeln das gleiche anpassen muss (zB. um bei highlight elementen die farbe an einem Punkt definiert zu haben):
+
+body {
+	- -highlight: wertderersetztwird;		//zwei - ohne leerzeichen davor ist wie $ bei php
+}
+
+dann in der klasse selber zB ei links:
+
+a {
+	color: var(- -highlight);
+	background-color: var(- -highlight);
+}
+
+
+im grunde wird der string var(- -highlight) also durch den wert ersetzt der oben unter body definiert wird
+
+
+https://www.w3.org/TR/css-variables/
